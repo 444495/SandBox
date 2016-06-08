@@ -1,17 +1,12 @@
 package haribote;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -20,15 +15,9 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Scanner;
-
 import javax.swing.JToolBar;
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.SwingConstants;
-import org.eclipse.wb.swing.FocusTraversalOnArray;
-import java.awt.Component;
 import javax.swing.JDesktopPane;
 import javax.swing.JFileChooser;
 
@@ -101,6 +90,7 @@ public class Haribote extends JFrame implements ActionListener{
 		JFileChooser chooser = new JFileChooser(last);
 		chooser.showOpenDialog(this);
 		File target = chooser.getSelectedFile();
+		last = target;
 		BufferedImage image = null;
 		try {
 			image = ImageIO.read(target);

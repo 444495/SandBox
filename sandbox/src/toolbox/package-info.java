@@ -1,8 +1,0 @@
-/**
- * 
- */
-/**
- * @author kawabata
- *
- */
-package toolbox;

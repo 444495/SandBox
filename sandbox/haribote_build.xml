@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Haribote" default="bundle" basedir=".">
+	<property name="package" value="haribote"></property>
+	<property name="version" value="0.0"></property>
+	<property name="destdir" value="./classes"></property>
+	<property name="mainclass" value="haribote.Haribote"></property>
+	<property name="jardir" value="./jar"></property>
+	<property name="jar" value="${package}.jar"></property>	
+	<property name="manifest" value="${jardir}/${package}.MF"></property>
+	<property name="bundle" value="./${package}.app"></property>
+	<property name="launch" value="./launch.sh"></property>
+	<target name="prepare" description="compile all">
+		<exec executable="date" spawn="false"></exec>
+	</target>
+	<target name="compile" depends="prepare" description="compile all sources to class">
+		<mkdir dir="${destdir}"/>
+		<javac
+			srcdir="${basedir}"
+			destdir="${destdir}"
+			encoding="UTF-8"
+			deprecation="on"
+			includeAntRuntime="true"
+			verbose="false"
+			fork="true"
+			>
+			<compilerarg value="-J-Dfile.encoding=UTF8"></compilerarg> <!-- javacからjavaにDfile.encoding=UTF8を渡す -->
+			<compilerarg value="-Xlint:unchecked"></compilerarg> <!-- 同上 非検査な操作について詳細なエラーを吐く -->
+			<classpath>
+				<pathelement location="." />
+			</classpath>
+		</javac>
+	</target>
+	<target name="jar" depends="compile" description="make jar">
+		<echo file="${manifest}" message="Manifest-Version: ${version}${line.separator}"></echo>
+		<echo file="${manifest}" append="yes" message="Main-Class: ${mainclass}${line.separator}"></echo>
+		<jar
+			destfile="${jardir}/${jar}"
+			basedir="${destdir}"
+			manifest="${manifest}"
+			>
+		</jar>
+	</target>
+	<target name="bundle" depends="jar" description="make bundle">
+		<mkdir dir="${bundle}"/>
+		<mkdir dir="${bundle}/Contents"/>
+		<mkdir dir="${bundle}/Contents/MacOS"/>
+		<mkdir dir="${bundle}/Contents/Resources"/>
+		<mkdir dir="${bundle}/Contents/Resources/Java"/>		
+		<copy file="${basedir}/Info.plist" todir="${bundle}/Contents/"></copy>
+		<copy file="${jardir}/${jar}" todir="${bundle}/Contents/Resources/Java/"></copy>
+		<chmod file="${bundle}/Contents/Resources/Java/${jar}" perm="ugo+rx"></chmod>
+		<copy file="${launch}" todir="${bundle}/Contents/MacOS/"></copy>
+		<chmod file="${bundle}/Contents/MacOS/${launch}" perm="ugo+rx"></chmod>
+	</target>
+</project>
