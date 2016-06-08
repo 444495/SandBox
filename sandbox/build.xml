@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Haribote" default="all" basedir=".">
+	<property name="package" value="haribote"></property>
+	<property name="destdir" value="./dest"></property> <!-- 出力先 -->
+	<property name="instdir" value="./${ant.project.name}.app/Contents/Resources/Java"></property> <!-- インストール先 -->
+	<property name="mainclass" value="haribote.Haribote"></property>
+	<property name="manifest" value="./${package}.MF"></property>
+	<target name="all" description="compile all">
+		<exec executable="date" spawn="false"></exec>
+		<mkdir dir="${destdir}"/>
+		
+		<javac
+			srcdir="${basedir}"
+			destdir="${destdir}"
+			encoding="UTF-8"
+			deprecation="on"
+			includeAntRuntime="true"
+			verbose="false"
+			fork="true"
+			>
+			<compilerarg value="-J-Dfile.encoding=UTF8"></compilerarg> <!-- javacからjavaにDfile.encoding=UTF8を渡す -->
+			<compilerarg value="-Xlint:unchecked"></compilerarg> <!-- 同上 非検査な操作について詳細なエラーを吐く -->
+			<classpath>
+				<pathelement location="." />
+			</classpath>
+		</javac>
+		
+		<echo file="${manifest}" message="Manifest-Version: 0.0${line.separator}"></echo>
+		<echo file="${manifest}" append="yes" message="Main-Class: ${mainclass}${line.separator}"></echo>
+		<jar
+			destfile="${package}.jar"
+			basedir="${destdir}"
+			manifest="${manifest}"
+			>
+		</jar>
+	</target>
+</project>
