@@ -15,6 +15,7 @@
 	<target name="compile" depends="prepare" description="compile all sources to class">
 		<mkdir dir="${destdir}"/>
 		<javac
+			sourcepath=""
 			srcdir="${basedir}"
 			destdir="${destdir}"
 			encoding="UTF-8"
@@ -23,6 +24,7 @@
 			verbose="false"
 			fork="true"
 			>
+			<include name="**/Haribote*.java"/>
 			<compilerarg value="-J-Dfile.encoding=UTF8"></compilerarg> <!-- javacからjavaにDfile.encoding=UTF8を渡す -->
 			<compilerarg value="-Xlint:unchecked"></compilerarg> <!-- 同上 非検査な操作について詳細なエラーを吐く -->
 			<classpath>
